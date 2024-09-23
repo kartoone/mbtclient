@@ -5,25 +5,34 @@ import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
+interface CollapsibleProps {
+  title: string;
+  children: React.ReactNode;
+  isOpen?: boolean; // Add the isOpen prop
+}
 
-export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
-  const [isOpen, setIsOpen] = useState(false);
+export const Collapsible: React.FC<CollapsibleProps> = ({ title, children, isOpen = false }: PropsWithChildren & { title: string }) => {
+  const [expanded, setExpanded] = useState(isOpen);
   const theme = useColorScheme() ?? 'light';
+
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
+  }
 
   return (
     <ThemedView>
       <TouchableOpacity
         style={styles.heading}
-        onPress={() => setIsOpen((value) => !value)}
+        onPress={toggleExpanded}
         activeOpacity={0.8}>
         <Ionicons
-          name={isOpen ? 'chevron-down' : 'chevron-forward-outline'}
+          name={expanded ? 'chevron-down' : 'chevron-forward-outline'}
           size={18}
           color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
         />
         <ThemedText type="defaultSemiBold">{title}</ThemedText>
       </TouchableOpacity>
-      {isOpen && <ThemedView style={styles.content}>{children}</ThemedView>}
+      {expanded && <ThemedView style={styles.content}>{children}</ThemedView>}
     </ThemedView>
   );
 }

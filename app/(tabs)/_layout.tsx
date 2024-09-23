@@ -1,12 +1,28 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs, useLocalSearchParams  } from 'expo-router';
+import React, { useEffect } from 'react';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Ionicon from '@expo/vector-icons/Ionicons';
+
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Linking } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  const { everything } = useLocalSearchParams<{
+    everything: string[];
+    extra?: string;
+  }>();
+  
+  useEffect(() => {
+    Linking.getInitialURL().then((url) => {
+      console.log(`url`, url);
+      console.log(everything);
+    });
+  }, []);
+
 
   return (
     <Tabs
@@ -17,18 +33,27 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Overview',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <Ionicon name={focused ? 'home' : 'home-outline'} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="axios"
         options={{
-          title: 'Explore',
+          title: 'Axios',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <FontAwesome5 name={'network-wired'} color={color} />
+          ),
+        }}
+      />
+       <Tabs.Screen
+        name="oauthapp"
+        options={{
+          title: 'Oauth Package',
+          tabBarIcon: ({ color, focused }) => (
+            <FontAwesome5 name={'lock'} color={color} />
           ),
         }}
       />

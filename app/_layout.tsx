@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Linking } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -21,6 +22,19 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  const linking = {
+    prefixes: ["mbtclient://"],
+    config: {
+      ResetPassword: {
+        path: "reset/password/:token",
+        params: {
+          token: null,
+        },
+      },
+    },
+  };
+
 
   if (!loaded) {
     return null;

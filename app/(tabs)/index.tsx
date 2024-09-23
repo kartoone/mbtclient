@@ -1,6 +1,6 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Button, Image, StyleSheet, Platform, Text, TouchableOpacity, View } from 'react-native';
+import * as Linking from 'expo-linking';
 
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -15,19 +15,29 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
+      <ThemedView style={styles.stepContainer}>
         <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+        <ThemedText>
+          This client app lets you test the OAuth process using the client_id and client_secret you received from MyBikeTraffic.
+        </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
+        <ThemedText type="subtitle">Step 0: Register for a client</ThemedText>
         <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
+          If you haven't already, request a client_id and client_secret from the MyBikeTraffic website.
+        </ThemedText>
+        <TouchableOpacity style={styles.button} onPress={() => Linking.openURL('https://www.mybiketraffic.com/clients/request')}>
+          <Text style={styles.buttonText}>mybiketraffic.com</Text>
+        </TouchableOpacity>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Step 1: Authorization</ThemedText>
+        <ThemedText>
+          Inside your app or website, display a link or button for users to click that will take them to the mybiketraffic website to authorize
+          your app to use the mybiketraffic API on your users' behalf. An example link is shown below. Click the Step 1 tab to try it with your client credentials.
+        </ThemedText>
+        <ThemedText type="defaultSemiBold">
+          https://www.mybiketraffic.com/clients/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
@@ -54,17 +64,39 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 0,
   },
   stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+    paddingHorizontal: 16,   // Add padding on the sides
+    paddingVertical: 8,     // Add padding on top and bottom
+    gap: 8,                 // Increase gap between text and button
+    marginBottom: 0,        // Increase spacing between sections
+    backgroundColor: '#fff', // Optional: Add background color to make each section distinct
+    borderRadius: 8,         // Optional: Add rounded corners to each section
+    shadowColor: '#000',     // Optional: Add shadow for depth (iOS)
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,            // Optional: Elevation for Android shadow
   },
   reactLogo: {
-    height: 178,
+    height: 78,
     width: 290,
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
