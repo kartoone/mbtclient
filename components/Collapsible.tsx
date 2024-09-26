@@ -8,11 +8,10 @@ import { Colors } from '@/constants/Colors';
 interface CollapsibleProps {
   title: string;
   children: React.ReactNode;
-  isOpen?: boolean; // Add the isOpen prop
 }
 
-export const Collapsible: React.FC<CollapsibleProps> = ({ title, children, isOpen = false }: PropsWithChildren & { title: string }) => {
-  const [expanded, setExpanded] = useState(isOpen);
+export const Collapsible: React.FC<CollapsibleProps> = ({ title, children }: PropsWithChildren & { title: string }) => {
+  const [expanded, setExpanded] = useState(true);
   const theme = useColorScheme() ?? 'light';
 
   const toggleExpanded = () => {

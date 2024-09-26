@@ -14,7 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.btoone.mbtclient"
+      "bundleIdentifier": "com.btoone.mbtclient",
+      "associatedDomains": ["applinks:mybiketraffic.com"]
     },
     "android": {
       "adaptiveIcon": {
